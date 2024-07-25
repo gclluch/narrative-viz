@@ -1,0 +1,12 @@
+Scene 1
+
+How It Fits the Narrative Visualization and Project Criteria
+Messaging: This scene effectively communicates the trends in happiness over time, highlighting key countries and significant events like the COVID-19 impact.
+Narrative Structure: The interactive slideshow structure is implemented here, allowing users to explore trends for different countries interactively.
+Visual Structure: The visualization uses a clear line chart with annotations and tooltips to make the data understandable and engaging.
+Scenes: The first scene introduces the trends over time, setting the stage for deeper dives into specific factors and comparisons.
+Annotations: Key points like Finland's happiness and the global dip due to COVID-19 are highlighted to reinforce the message.
+Parameters: The selected country is a key parameter that changes the displayed data.
+Triggers: The dropdown and mouse events serve as triggers to update the visualization and show tooltips, enhancing interactivity.
+
+Scene 2

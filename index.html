@@ -9,19 +9,35 @@
         body { font-family: Arial, sans-serif; }
         .scene { display: none; }
         .visible { display: block; }
-        svg { width: 800px; height: 600px; }
+        svg { width: 1400px; height: 1000px; }
         .annotation { font-size: 14px; fill: black; }
+        .hidden { display: none; }
+        #tooltip {
+            position: absolute;
+            width: auto;
+            height: auto;
+            padding: 10px;
+            background: lightsteelblue;
+            border: 1px solid #333;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
     <div id="nav">
         <button id="scene1-btn">Scene 1: Global Happiness Trends</button>
-        <button id="scene2-btn">Scene 2: Happiness Factors Breakdown</button>
-        <button id="scene3-btn">Scene 3: Country Comparison</button>
+        <button id="scene2-btn">Scene 2: Happiness by GDP</button>
+        <button id="scene3-btn">Scene 3: Happiness Factors Breakdown</button>
     </div>
-    <div id="scene1" class="scene"></div>
+    <div id="scene1" class="scene visible"></div>
     <div id="scene2" class="scene"></div>
     <div id="scene3" class="scene"></div>
-    <script src="scripts.js"></script>
+    <div id="tooltip" class="hidden">
+        <p><strong>Info:</strong> <span id="value">100</span></p>
+    </div>
+    <script src="main.js"></script>
+    <script src="drawScene1.js"></script>
+    <script src="drawScene2.js"></script>
+    <script src="drawScene3.js"></script>
 </body>
 </html>

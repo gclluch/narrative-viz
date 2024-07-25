@@ -1,0 +1,15 @@
+body { font-family: Arial, sans-serif; }
+.scene { display: none; }
+.visible { display: block; }
+svg { width: 800px; height: 600px; }
+.annotation { font-size: 14px; fill: black; }
+.hidden { display: none; }
+#tooltip {
+    position: absolute;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    background: lightsteelblue;
+    border: 1px solid #333;
+    pointer-events: none;
+}
