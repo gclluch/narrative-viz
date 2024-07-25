@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Happiness Visualization</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .scene { display: none; }
+        .visible { display: block; }
+        svg { width: 800px; height: 600px; }
+        .annotation { font-size: 14px; fill: black; }
+    </style>
+</head>
+<body>
+    <div id="nav">
+        <button id="scene1-btn">Scene 1: Global Happiness Trends</button>
+        <button id="scene2-btn">Scene 2: Happiness Factors Breakdown</button>
+        <button id="scene3-btn">Scene 3: Country Comparison</button>
+    </div>
+    <div id="scene1" class="scene"></div>
+    <div id="scene2" class="scene"></div>
+    <div id="scene3" class="scene"></div>
+    <script src="scripts.js"></script>
+</body>
+</html>
