@@ -8,12 +8,20 @@ function drawScene2(data) {
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
+    const countries = ["Finland", "United States", "Mexico", "China", "South Africa"];
+    const filteredData = data.filter(d => countries.includes(d['Country name']) && d['year'] === '2023');
+
+    // Logging filtered data for sanity check
+    filteredData.forEach(d => {
+        console.log(`Country: ${d['Country name']}, GDP: ${d['Log GDP per capita']}, Happiness: ${d['Life Ladder']}`);
+    });
+
     const x = d3.scaleLinear()
-        .domain([1.2, 2.0])  // Adjusted to start at 1.2
+        .domain([9.4, d3.max(filteredData, d => +d['Log GDP per capita'])]).nice()  // Adjusted to start at 9.4
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
-        .domain([4.5, 8])  // Adjusted to start at 4.5
+        .domain([5, d3.max(filteredData, d => +d['Life Ladder'])]).nice()  // Adjusted to start at 5
         .range([height - margin.bottom, margin.top]);
 
     svg.append("g")
@@ -35,17 +43,14 @@ function drawScene2(data) {
         .attr("fill", "black")
         .text("Happiness Score");
 
-    const countries = ["Finland", "United States", "Mexico", "China", "South Africa"];
-    const filteredData = data.filter(d => countries.includes(d['Country name']));
-
     const color = d3.scaleOrdinal(d3.schemeCategory10);
 
     svg.selectAll(".dot")
         .data(filteredData)
         .join("circle")
         .attr("class", "dot")
-        .attr("cx", d => x(d['Explained by: Log GDP per capita']))
-        .attr("cy", d => y(d['Ladder score']))
+        .attr("cx", d => x(+d['Log GDP per capita']))
+        .attr("cy", d => y(+d['Life Ladder']))
         .attr("r", 5)
         .attr("fill", d => color(d['Country name']))
         .on("mouseover", function(event, d) {
@@ -54,7 +59,7 @@ function drawScene2(data) {
                 .style("left", (event.pageX + 5) + "px")
                 .style("top", (event.pageY - 28) + "px")
                 .select("#value")
-                .text(`Country: ${d['Country name']}, GDP: ${d['Explained by: Log GDP per capita']}, Happiness: ${d['Ladder score']}`);
+                .text(`Country: ${d['Country name']}, GDP: ${d['Log GDP per capita']}, Happiness: ${d['Life Ladder']}`);
             d3.select("#tooltip").classed("hidden", false);
         })
         .on("mouseout", function(event, d) {
@@ -67,21 +72,21 @@ function drawScene2(data) {
         .data(filteredData)
         .join("text")
         .attr("class", "label")
-        .attr("x", d => x(d['Explained by: Log GDP per capita']) + 7)
-        .attr("y", d => y(d['Ladder score']) + 3)
+        .attr("x", d => x(+d['Log GDP per capita']) + 7)
+        .attr("y", d => y(+d['Life Ladder']) + 3)
         .text(d => d['Country name']);
 
     // Add Annotations
     svg.append("text")
-        .attr("x", x(1.8))
-        .attr("y", y(7.0))
+        .attr("x", x(10.8))
+        .attr("y", y(7.5))
         .attr("class", "annotation")
         .attr("fill", "green")
         .text("High GDP correlates with higher happiness");
 
     svg.append("text")
-        .attr("x", x(1.3))
-        .attr("y", y(5.0))
+        .attr("x", x(9.5))
+        .attr("y", y(5.5))
         .attr("class", "annotation")
         .attr("fill", "green")
         .text("Low GDP correlates with lower happiness");

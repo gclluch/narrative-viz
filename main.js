@@ -6,7 +6,7 @@ Promise.all([
     const happinessByYear = data[0];
     const happinessSummary = data[1];
     drawScene1(happinessByYear);
-    drawScene2(happinessSummary);
+    drawScene2(happinessByYear);  // Use happiness_by_year.csv for Scene 2
     drawScene3(happinessSummary);
 });
 
