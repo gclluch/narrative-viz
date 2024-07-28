@@ -1,6 +1,7 @@
 // Scene 3: Happiness Factors Breakdown
-function drawScene3(data) {
+function drawScene3(data, selectedOptions = []) {
     d3.select("#scene3").selectAll("svg").remove();
+    d3.select("#scene3-controls .legend").remove();
 
     const svg = d3.select("#scene3").append("svg")
         .attr("width", 1200)
@@ -12,9 +13,20 @@ function drawScene3(data) {
 
     const keys = ["Explained by: Log GDP per capita", "Explained by: Social support", "Explained by: Healthy life expectancy", "Explained by: Freedom to make life choices", "Explained by: Generosity", "Explained by: Perceptions of corruption", "Dystopia + residual"];
 
-    // Filter out countries with null or none values
+    const renamedKeys = {
+        "Explained by: Log GDP per capita": "Log GDP per capita",
+        "Explained by: Social support": "Social support",
+        "Explained by: Healthy life expectancy": "Healthy life expectancy",
+        "Explained by: Freedom to make life choices": "Freedom to make life choices",
+        "Explained by: Generosity": "Generosity",
+        "Explained by: Perceptions of corruption": "Perceptions of corruption",
+        "Dystopia + residual": "Residual"
+    };
+
+    // Filter out specific countries and countries with null or none values
     const filteredData = data.filter(d => {
-        return keys.every(key => d[key] !== null && d[key] !== "none");
+        return !["Bahrain", "State of Palestine", "Tajikistan"].includes(d['Country name']) &&
+            keys.every(key => d[key] !== null && d[key] !== "none");
     });
 
     const groupedData = d3.group(filteredData, d => d['Country name']);
@@ -33,12 +45,18 @@ function drawScene3(data) {
         .domain(keys)
         .range(d3.schemeCategory10);
 
-    svg.append("g")
+    const xAxis = svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).tickSize(0))
-        .selectAll("text")
-        .attr("transform", "rotate(-45)")
-        .style("text-anchor", "end");
+        .call(d3.axisBottom(x).tickSize(0));
+
+    if (selectedOptions.includes("all") || selectedOptions.length === 0) {
+        xAxis.selectAll("text").remove();
+    } else {
+        xAxis.selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end")
+            .style("display", (d, i) => i % Math.ceil(groupedData.size / 10) === 0 ? "block" : "none"); // Show only some labels
+    }
 
     svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
@@ -74,7 +92,7 @@ function drawScene3(data) {
         .attr("class", "x label")
         .attr("text-anchor", "middle")
         .attr("x", width / 2)
-        .attr("y", height + margin.bottom - 10)
+        .attr("y", height + margin.bottom - 50)
         .text("Country");
 
     // Add Y axis label
@@ -82,7 +100,7 @@ function drawScene3(data) {
         .attr("class", "y label")
         .attr("text-anchor", "middle")
         .attr("x", -height / 2)
-        .attr("y", margin.left - 60)
+        .attr("y", margin.left - 100)
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
         .text("Happiness Score Breakdown");
@@ -103,5 +121,30 @@ function drawScene3(data) {
             tooltip.transition()
                 .duration(500)
                 .style("opacity", 0);
+        });
+
+    // Legend setup
+    const legend = d3.select("#scene3-controls").append("div")
+        .attr("class", "legend");
+
+    legend.selectAll("div.legend-item")
+        .data(keys)
+        .enter()
+        .append("div")
+        .attr("class", "legend-item")
+        .style("display", "flex")
+        .style("align-items", "center")
+        .style("margin-bottom", "5px")
+        .each(function(d) {
+            const legendItem = d3.select(this);
+
+            legendItem.append("div")
+                .style("width", "20px")
+                .style("height", "20px")
+                .style("background-color", color(d))
+                .style("margin-right", "5px");
+
+            legendItem.append("span")
+                .text(renamedKeys[d]);
         });
 }

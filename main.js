@@ -32,7 +32,7 @@ Promise.all([
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene3").classed("visible", true);
         d3.select("#scene3-controls").classed("visible", true);
-        drawScene3(happinessSummary);
+        drawScene3(happinessSummary, []);
     });
 
     // Populate country dropdown for Scene 1
@@ -193,6 +193,6 @@ Promise.all([
             filteredData = filteredData.filter(d => selectedCountries.has(d['Country name']));
         }
 
-        drawScene3(filteredData);
+        drawScene3(filteredData, selectedOptions);
     });
 });

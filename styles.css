@@ -30,3 +30,23 @@ body {
     opacity: 0.5; /* Less dimming effect */
     transition: opacity 0.3s ease; /* Smooth transition */
 }
+
+.legend-container {
+    margin-top: 20px;
+}
+
+.legend-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.legend-color-box {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.legend-text {
+    font-size: 14px;
+}
