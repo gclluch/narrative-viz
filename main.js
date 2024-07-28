@@ -118,4 +118,33 @@ Promise.all([
 
         drawScene2(filteredData, year);
     });
+
+    // Populate country dropdown for Scene 3
+    const countryDropdownScene3 = d3.select("#country-filter-scene3");
+    countries.forEach(country => {
+        countryDropdownScene3.append("option").text(country).attr("value", country);
+    });
+
+    // Event listener for Scene 3 country dropdown
+    countryDropdownScene3.on("change", function() {
+        const selectedOption = this.value;
+        let filteredData;
+
+        if (selectedOption === "all") {
+            filteredData = happinessSummary;
+        } else if (selectedOption === "major") {
+            const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
+            filteredData = happinessSummary.filter(d => majorCountries.includes(d['Country name']));
+        } else if (selectedOption === "happiest") {
+            const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
+            filteredData = happinessSummary.filter(d => happiestCountries.includes(d['Country name']));
+        } else if (selectedOption === "least") {
+            const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
+            filteredData = happinessSummary.filter(d => leastHappyCountries.includes(d['Country name']));
+        } else {
+            filteredData = happinessSummary.filter(d => d['Country name'] === selectedOption);
+        }
+
+        drawScene3(filteredData);
+    });
 });
