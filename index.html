@@ -20,16 +20,21 @@
         }
 
         .controls {
+            width: 250px; /* Fixed width for controls column */
             margin-left: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .select2-container {
-            min-width: 200px; /* Set your desired minimum width */
+            width: 100%; /* Ensure the dropdown spans the full width */
+            min-width: 200px;
+            box-sizing: border-box; /* Ensure padding and borders are included in the width */
         }
 
         .select2-selection__choice {
             display: block; /* Display each selected option as a block element */
-            margin: 2px 0; /* Optional: Adjust margin for spacing */
+            margin: 2px 0; /* Adjust margin for spacing */
         }
 
         .scene {
@@ -38,6 +43,11 @@
 
         .scene.visible {
             display: block;
+        }
+
+        /* Additional styling to ensure consistent appearance */
+        .controls select {
+            margin-bottom: 10px;
         }
     </style>
 </head>

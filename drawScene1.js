@@ -27,6 +27,21 @@ function drawScene1(data) {
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y));
 
+    // Add X axis label
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("x", width / 2 + margin.left)
+        .attr("y", height + margin.top + 20)
+        .text("Year");
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("text-anchor", "end")
+        .attr("transform", "rotate(-90)")
+        .attr("y", margin.left - 50)
+        .attr("x", -margin.top - height / 2 + 20)
+        .text("Life Ladder");
+
     const line = d3.line()
         .x(d => x(new Date(d['year'])))
         .y(d => y(+d['Life Ladder']))
