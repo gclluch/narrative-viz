@@ -1,6 +1,7 @@
 // Scene 1: Global Happiness Trends
 function drawScene1(data) {
     d3.select("#scene1").selectAll("svg").remove();
+    d3.select("#scene1-controls .legend").selectAll("*").remove();
 
     const svg = d3.select("#scene1").append("svg")
         .attr("width", 1200)
@@ -42,13 +43,13 @@ function drawScene1(data) {
         .attr("x", -margin.top - height / 2 + 20)
         .text("Life Ladder");
 
+    const countries = Array.from(new Set(data.map(d => d['Country name'])));
+    const color = d3.scaleOrdinal(d3.schemeCategory10).domain(countries);
+
     const line = d3.line()
         .x(d => x(new Date(d['year'])))
         .y(d => y(+d['Life Ladder']))
         .curve(d3.curveMonotoneX);
-
-    const countries = Array.from(new Set(data.map(d => d['Country name'])));
-    const color = d3.scaleOrdinal(d3.schemeCategory10).domain(countries);
 
     const paths = svg.selectAll(".line")
         .data(d3.group(data, d => d['Country name']).values())
@@ -79,4 +80,30 @@ function drawScene1(data) {
             .duration(500)
             .style("opacity", 0);
     });
+
+    // Create Legend
+    const selectedCountries = Array.from(new Set(data.map(d => d['Country name'])));
+    const legend = d3.select("#scene1-controls .legend");
+
+    if (!d3.select("#country-filter").property("value").includes("all")) {
+        selectedCountries.forEach(country => {
+            const legendItem = legend.append("div")
+                .attr("class", "legend-item")
+                .style("display", "flex")
+                .style("align-items", "center")
+                .style("margin-bottom", "5px");
+
+            legendItem.append("div")
+                .attr("class", "legend-color")
+                .style("background-color", color(country))
+                .style("width", "20px")
+                .style("height", "20px")
+                .style("border-radius", "50%")
+                .style("margin-right", "10px");
+
+            legendItem.append("div")
+                .attr("class", "legend-text")
+                .text(country);
+        });
+    }
 }

@@ -12,6 +12,12 @@ Promise.all([
     $('#country-filter-scene2').select2();
     $('#country-filter-scene3').select2();
 
+    const countries = Array.from(new Set(happinessByYear.map(d => d['Country name'])));
+    const color = d3.scaleOrdinal(d3.schemeCategory10).domain(countries);
+
+    // Hide legend on page load
+    d3.select("#scene1-controls .legend").selectAll("*").remove();
+
     // Event listeners for navigation buttons
     document.getElementById("scene1-btn").addEventListener("click", () => {
         d3.selectAll(".scene").classed("visible", false);
@@ -36,7 +42,6 @@ Promise.all([
     });
 
     // Populate country dropdown for Scene 1
-    const countries = Array.from(new Set(happinessByYear.map(d => d['Country name'])));
     const dropdown = d3.select("#country-filter");
     countries.forEach(country => {
         dropdown.append("option").text(country).attr("value", country);
@@ -48,8 +53,9 @@ Promise.all([
         let filteredData = happinessByYear;
         const selectedCountries = new Set();
 
-        if (selectedOptions.includes("all")) {
+        if (selectedOptions.length === 0 || selectedOptions.includes("all")) {
             filteredData = happinessByYear;
+            d3.select("#scene1-controls .legend").selectAll("*").remove();
         } else {
             if (selectedOptions.includes("major")) {
                 const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
@@ -96,8 +102,9 @@ Promise.all([
         let filteredData = happinessByYear.filter(d => d.year == year);
         const selectedCountries = new Set();
 
-        if (selectedOptions.includes("all")) {
+        if (selectedOptions.length === 0 || selectedOptions.includes("all")) {
             filteredData = happinessByYear.filter(d => d.year == year);
+            d3.select("#scene2-controls .legend").selectAll("*").remove();
         } else {
             if (selectedOptions.includes("major")) {
                 const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
@@ -130,8 +137,9 @@ Promise.all([
         let filteredData = happinessByYear.filter(d => d.year == year);
         const selectedCountries = new Set();
 
-        if (selectedOptions.includes("all")) {
+        if (selectedOptions.length === 0 || selectedOptions.includes("all")) {
             filteredData = happinessByYear.filter(d => d.year == year);
+            d3.select("#scene2-controls .legend").selectAll("*").remove();
         } else {
             if (selectedOptions.includes("major")) {
                 const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
@@ -169,7 +177,7 @@ Promise.all([
         let filteredData = happinessSummary;
         const selectedCountries = new Set();
 
-        if (selectedOptions.includes("all")) {
+        if (selectedOptions.length === 0 || selectedOptions.includes("all")) {
             filteredData = happinessSummary;
         } else {
             if (selectedOptions.includes("major")) {
