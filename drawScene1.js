@@ -1,77 +1,67 @@
+// Scene 1: Global Happiness Trends
 function drawScene1(data) {
-    d3.select("#scene1").selectAll("*").remove();
+    d3.select("#scene1").selectAll("svg").remove();
+
     const svg = d3.select("#scene1").append("svg")
         .attr("width", 1200)
         .attr("height", 800);
 
-    const margin = { top: 20, right: 30, bottom: 50, left: 50 },
+    const margin = { top: 20, right: 30, bottom: 50, left: 70 },
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
-    const x = d3.scaleLinear().domain(d3.extent(data, d => +d.year)).range([0, width]);
-    const y = d3.scaleLinear().domain([0, 8]).range([height, 0]);
+    const x = d3.scaleTime()
+        .domain(d3.extent(data, d => new Date(d['year'])))
+        .range([margin.left, width - margin.right]);
 
-    const line = d3.line()
-        .x(d => x(+d.year))
-        .y(d => y(+d['Life Ladder']));
-
-    const color = d3.scaleOrdinal(d3.schemeCategory10);
-
-    svg.append("g")
-        .attr("transform", `translate(${margin.left},${height + margin.top})`)
-        .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0));
+    const y = d3.scaleLinear()
+        .domain([d3.min(data, d => +d['Life Ladder']), d3.max(data, d => +d['Life Ladder'])])
+        .nice()
+        .range([height - margin.bottom, margin.top]);
 
     svg.append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`)
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x));
+
+    svg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y));
 
-    const countries = ["Finland", "United States", "Mexico", "China", "South Africa"];
-    countries.forEach(country => {
-        const countryData = data.filter(d => d['Country name'] === country);
-        svg.append("path")
-            .datum(countryData)
-            .attr("fill", "none")
-            .attr("stroke", color(country))
-            .attr("d", line)
-            .attr("transform", `translate(${margin.left},${margin.top})`)
-            .attr("stroke-width", 2);
+    const line = d3.line()
+        .x(d => x(new Date(d['year'])))
+        .y(d => y(+d['Life Ladder']))
+        .curve(d3.curveMonotoneX);
 
-        let xOffset = 3, yOffset = 0;
-        if (country === "United States") {
-            xOffset = 5;
-            yOffset = -10;
-        } else if (country === "Mexico") {
-            xOffset = 5;
-            yOffset = 10;
-        }
+    const countries = Array.from(new Set(data.map(d => d['Country name'])));
+    const color = d3.scaleOrdinal(d3.schemeCategory10).domain(countries);
 
-        svg.append("text")
-            .datum(countryData[countryData.length - 1])
-            .attr("transform", d => `translate(${x(d.year) + margin.left},${y(d['Life Ladder']) + margin.top})`)
-            .attr("x", xOffset)
-            .attr("dy", "0.35em")
-            .style("font", "10px sans-serif")
-            .attr("class", "country-label")
-            .text(country);
-    });
+    const paths = svg.selectAll(".line")
+        .data(d3.group(data, d => d['Country name']).values())
+        .join("path")
+        .attr("class", "line")
+        .attr("d", d => line(d))
+        .attr("fill", "none")
+        .attr("stroke", d => color(d[0]['Country name']))
+        .attr("stroke-width", 1.5);
 
+    // Tooltip setup
     const tooltip = d3.select("#tooltip");
 
-    svg.selectAll("circle")
-        .data(data)
-        .enter().append("circle")
-        .attr("cx", d => x(d.year) + margin.left)
-        .attr("cy", d => y(d['Life Ladder']) + margin.top)
-        .attr("r", 5)
-        .attr("fill", "transparent")
-        .attr("stroke", "none")
-        .on("mouseover", function(event, d) {
-            tooltip.style("left", (event.pageX + 5) + "px")
-                .style("top", (event.pageY - 28) + "px")
-                .style("opacity", .9);
-            tooltip.select("#value").text(`Country: ${d['Country name']} Year: ${d.year} Life Ladder: ${d['Life Ladder']}`);
-        })
-        .on("mouseout", function(d) {
-            tooltip.style("opacity", 0);
-        });
+    paths.on("mouseover", function(event, d) {
+        d3.select(this).attr("stroke-width", 3);
+        d3.selectAll(".line").classed("dimmed", true);
+        d3.select(this).classed("dimmed", false);
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+        tooltip.html(`Country: ${d[0]['Country name']}`)
+            .style("left", (event.pageX + 5) + "px")
+            .style("top", (event.pageY - 28) + "px");
+    }).on("mouseout", function() {
+        d3.select(this).attr("stroke-width", 1.5);
+        d3.selectAll(".line").classed("dimmed", false);
+        tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+    });
 }

@@ -1,15 +1,32 @@
-body { font-family: Arial, sans-serif; }
-.scene { display: none; }
-.visible { display: block; }
-svg { width: 800px; height: 600px; }
-.annotation { font-size: 14px; fill: black; }
-.hidden { display: none; }
-#tooltip {
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scene {
+    display: none;
+    text-align: center;
+}
+
+.scene.visible {
+    display: block;
+}
+
+.tooltip {
     position: absolute;
+    text-align: center;
     width: auto;
     height: auto;
-    padding: 10px;
+    padding: 8px;
+    font: 12px sans-serif;
     background: lightsteelblue;
-    border: 1px solid #333;
+    border: 0px;
+    border-radius: 8px;
     pointer-events: none;
+}
+
+.dimmed {
+    opacity: 0.5; /* Less dimming effect */
+    transition: opacity 0.3s ease; /* Smooth transition */
 }
