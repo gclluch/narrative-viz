@@ -7,16 +7,23 @@ Promise.all([
     const happinessSummary = data[1];
     drawScene1(happinessByYear);
 
+    // Initialize Select2 on dropdowns
+    $('#country-filter').select2();
+    $('#country-filter-scene2').select2();
+    $('#country-filter-scene3').select2();
+
     // Event listeners for navigation buttons
     document.getElementById("scene1-btn").addEventListener("click", () => {
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene1").classed("visible", true);
+        d3.select("#scene1-controls").classed("visible", true);
         drawScene1(happinessByYear);
     });
 
     document.getElementById("scene2-btn").addEventListener("click", () => {
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene2").classed("visible", true);
+        d3.select("#scene2-controls").classed("visible", true);
         const year = document.getElementById("year-filter").value;
         drawScene2(happinessByYear, year);
     });
@@ -24,6 +31,7 @@ Promise.all([
     document.getElementById("scene3-btn").addEventListener("click", () => {
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene3").classed("visible", true);
+        d3.select("#scene3-controls").classed("visible", true);
         drawScene3(happinessSummary);
     });
 
@@ -35,23 +43,33 @@ Promise.all([
     });
 
     // Event listener for Scene 1 country dropdown
-    dropdown.on("change", function() {
-        const selectedOption = this.value;
-        let filteredData;
+    $('#country-filter').on("change", function() {
+        const selectedOptions = $(this).val();
+        let filteredData = happinessByYear;
+        const selectedCountries = new Set();
 
-        if (selectedOption === "all") {
+        if (selectedOptions.includes("all")) {
             filteredData = happinessByYear;
-        } else if (selectedOption === "major") {
-            const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
-            filteredData = happinessByYear.filter(d => majorCountries.includes(d['Country name']));
-        } else if (selectedOption === "happiest") {
-            const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
-            filteredData = happinessByYear.filter(d => happiestCountries.includes(d['Country name']));
-        } else if (selectedOption === "least") {
-            const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
-            filteredData = happinessByYear.filter(d => leastHappyCountries.includes(d['Country name']));
         } else {
-            filteredData = happinessByYear.filter(d => d['Country name'] === selectedOption);
+            if (selectedOptions.includes("major")) {
+                const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
+                majorCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("happiest")) {
+                const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
+                happiestCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("least")) {
+                const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
+                leastHappyCountries.forEach(country => selectedCountries.add(country));
+            }
+            selectedOptions.forEach(option => {
+                if (!["all", "major", "happiest", "least"].includes(option)) {
+                    selectedCountries.add(option);
+                }
+            });
+
+            filteredData = filteredData.filter(d => selectedCountries.has(d['Country name']));
         }
 
         drawScene1(filteredData);
@@ -74,46 +92,66 @@ Promise.all([
     // Event listener for Scene 2 year dropdown
     yearDropdown.on("change", function() {
         const year = this.value;
-        const selectedOption = document.getElementById("country-filter-scene2").value;
-        let filteredData;
+        const selectedOptions = $('#country-filter-scene2').val();
+        let filteredData = happinessByYear.filter(d => d.year == year);
+        const selectedCountries = new Set();
 
-        if (selectedOption === "all") {
-            filteredData = happinessByYear;
-        } else if (selectedOption === "major") {
-            const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
-            filteredData = happinessByYear.filter(d => majorCountries.includes(d['Country name']));
-        } else if (selectedOption === "happiest") {
-            const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
-            filteredData = happinessByYear.filter(d => happiestCountries.includes(d['Country name']));
-        } else if (selectedOption === "least") {
-            const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
-            filteredData = happinessByYear.filter(d => leastHappyCountries.includes(d['Country name']));
+        if (selectedOptions.includes("all")) {
+            filteredData = happinessByYear.filter(d => d.year == year);
         } else {
-            filteredData = happinessByYear.filter(d => d['Country name'] === selectedOption);
+            if (selectedOptions.includes("major")) {
+                const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
+                majorCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("happiest")) {
+                const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
+                happiestCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("least")) {
+                const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
+                leastHappyCountries.forEach(country => selectedCountries.add(country));
+            }
+            selectedOptions.forEach(option => {
+                if (!["all", "major", "happiest", "least"].includes(option)) {
+                    selectedCountries.add(option);
+                }
+            });
+
+            filteredData = filteredData.filter(d => selectedCountries.has(d['Country name']));
         }
 
         drawScene2(filteredData, year);
     });
 
     // Event listener for Scene 2 country dropdown
-    countryDropdownScene2.on("change", function() {
-        const selectedOption = this.value;
+    $('#country-filter-scene2').on("change", function() {
+        const selectedOptions = $(this).val();
         const year = document.getElementById("year-filter").value;
-        let filteredData;
+        let filteredData = happinessByYear.filter(d => d.year == year);
+        const selectedCountries = new Set();
 
-        if (selectedOption === "all") {
-            filteredData = happinessByYear;
-        } else if (selectedOption === "major") {
-            const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
-            filteredData = happinessByYear.filter(d => majorCountries.includes(d['Country name']));
-        } else if (selectedOption === "happiest") {
-            const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
-            filteredData = happinessByYear.filter(d => happiestCountries.includes(d['Country name']));
-        } else if (selectedOption === "least") {
-            const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
-            filteredData = happinessByYear.filter(d => leastHappyCountries.includes(d['Country name']));
+        if (selectedOptions.includes("all")) {
+            filteredData = happinessByYear.filter(d => d.year == year);
         } else {
-            filteredData = happinessByYear.filter(d => d['Country name'] === selectedOption);
+            if (selectedOptions.includes("major")) {
+                const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
+                majorCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("happiest")) {
+                const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
+                happiestCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("least")) {
+                const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
+                leastHappyCountries.forEach(country => selectedCountries.add(country));
+            }
+            selectedOptions.forEach(option => {
+                if (!["all", "major", "happiest", "least"].includes(option)) {
+                    selectedCountries.add(option);
+                }
+            });
+
+            filteredData = filteredData.filter(d => selectedCountries.has(d['Country name']));
         }
 
         drawScene2(filteredData, year);
@@ -126,23 +164,33 @@ Promise.all([
     });
 
     // Event listener for Scene 3 country dropdown
-    countryDropdownScene3.on("change", function() {
-        const selectedOption = this.value;
-        let filteredData;
+    $('#country-filter-scene3').on("change", function() {
+        const selectedOptions = $(this).val();
+        let filteredData = happinessSummary;
+        const selectedCountries = new Set();
 
-        if (selectedOption === "all") {
+        if (selectedOptions.includes("all")) {
             filteredData = happinessSummary;
-        } else if (selectedOption === "major") {
-            const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
-            filteredData = happinessSummary.filter(d => majorCountries.includes(d['Country name']));
-        } else if (selectedOption === "happiest") {
-            const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
-            filteredData = happinessSummary.filter(d => happiestCountries.includes(d['Country name']));
-        } else if (selectedOption === "least") {
-            const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
-            filteredData = happinessSummary.filter(d => leastHappyCountries.includes(d['Country name']));
         } else {
-            filteredData = happinessSummary.filter(d => d['Country name'] === selectedOption);
+            if (selectedOptions.includes("major")) {
+                const majorCountries = ["Germany", "Brazil", "United States", "China", "South Africa"];
+                majorCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("happiest")) {
+                const happiestCountries = ["Finland", "Denmark", "Iceland", "Sweden", "Israel"];
+                happiestCountries.forEach(country => selectedCountries.add(country));
+            }
+            if (selectedOptions.includes("least")) {
+                const leastHappyCountries = ["Congo (Kinshasa)", "Sierra Leone", "Lesotho", "Lebanon", "Afghanistan"];
+                leastHappyCountries.forEach(country => selectedCountries.add(country));
+            }
+            selectedOptions.forEach(option => {
+                if (!["all", "major", "happiest", "least"].includes(option)) {
+                    selectedCountries.add(option);
+                }
+            });
+
+            filteredData = filteredData.filter(d => selectedCountries.has(d['Country name']));
         }
 
         drawScene3(filteredData);

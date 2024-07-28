@@ -10,8 +10,14 @@ function drawScene3(data) {
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
-    const groupedData = d3.group(data, d => d['Country name']);
     const keys = ["Explained by: Log GDP per capita", "Explained by: Social support", "Explained by: Healthy life expectancy", "Explained by: Freedom to make life choices", "Explained by: Generosity", "Explained by: Perceptions of corruption", "Dystopia + residual"];
+
+    // Filter out countries with null or none values
+    const filteredData = data.filter(d => {
+        return keys.every(key => d[key] !== null && d[key] !== "none");
+    });
+
+    const groupedData = d3.group(filteredData, d => d['Country name']);
 
     const x = d3.scaleBand()
         .domain(Array.from(groupedData.keys()))
@@ -19,7 +25,7 @@ function drawScene3(data) {
         .padding(0.1);
 
     const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d['Ladder score'])])
+        .domain([0, d3.max(filteredData, d => d['Ladder score'])])
         .nice()
         .range([height - margin.bottom, margin.top]);
 
@@ -43,7 +49,7 @@ function drawScene3(data) {
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
 
-    const stackedData = stack(data.map(d => {
+    const stackedData = stack(filteredData.map(d => {
         const countryData = {};
         keys.forEach(key => countryData[key] = d[key]);
         countryData['Country name'] = d['Country name'];
