@@ -29,17 +29,20 @@ function drawScene1(data) {
 
     // Add X axis label
     svg.append("text")
-        .attr("text-anchor", "end")
-        .attr("x", width / 2 + margin.left)
-        .attr("y", height + margin.top + 20)
+        .attr("class", "x label")
+        .attr("text-anchor", "middle")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 30)
         .text("Year");
 
     // Add Y axis label
     svg.append("text")
-        .attr("text-anchor", "end")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("x", -height / 2)
+        .attr("y", margin.left - 60)
+        .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
-        .attr("y", margin.left - 50)
-        .attr("x", -margin.top - height / 2 + 20)
         .text("Life Ladder");
 
     const line = d3.line()

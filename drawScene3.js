@@ -7,7 +7,7 @@ function drawScene3(data, selectedOptions = []) {
         .attr("width", 1200)
         .attr("height", 800);
 
-    const margin = { top: 20, right: 30, bottom: 70, left: 100 },
+    const margin = { top: 20, right: 30, bottom: 50, left: 70 },
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -92,7 +92,7 @@ function drawScene3(data, selectedOptions = []) {
         .attr("class", "x label")
         .attr("text-anchor", "middle")
         .attr("x", width / 2)
-        .attr("y", height + margin.bottom - 50)
+        .attr("y", height + margin.bottom - 30)
         .text("Country");
 
     // Add Y axis label
@@ -100,7 +100,7 @@ function drawScene3(data, selectedOptions = []) {
         .attr("class", "y label")
         .attr("text-anchor", "middle")
         .attr("x", -height / 2)
-        .attr("y", margin.left - 100)
+        .attr("y", margin.left - 60)
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
         .text("Happiness Score Breakdown");
@@ -126,7 +126,8 @@ function drawScene3(data, selectedOptions = []) {
 
     // Legend setup
     const legend = d3.select("#scene3-controls").append("div")
-        .attr("class", "legend");
+        .attr("class", "legend")
+        .style("margin-top", "20px"); // Add margin-top to move the legend lower
 
     legend.selectAll("div.legend-item")
         .data(keys)

@@ -6,7 +6,7 @@ function drawScene2(data, year) {
         .attr("width", 1200)
         .attr("height", 800);
 
-    const margin = { top: 20, right: 30, bottom: 70, left: 100 }, // Adjusted bottom and left margins for labels
+    const margin = { top: 20, right: 30, bottom: 50, left: 70 }, // Adjusted bottom and left margins for labels
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
@@ -63,7 +63,7 @@ function drawScene2(data, year) {
         .attr("class", "x label")
         .attr("text-anchor", "middle")
         .attr("x", width / 2)
-        .attr("y", height + margin.bottom - 75)
+        .attr("y", height + margin.bottom - 30)
         .text("Log GDP per Capita");
 
     // Add Y axis label
