@@ -110,10 +110,11 @@ function drawScene3(data, selectedOptions = []) {
 
     svg.selectAll("rect")
         .on("mouseover", function(event, d) {
+            const key = d3.select(this.parentNode).datum().key;
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9);
-            tooltip.html(`Country: ${d.data['Country name']}<br>Value: ${d[1] - d[0]}`)
+            tooltip.html(`Country: ${d.data['Country name']}<br>${renamedKeys[key]}<br>Value: ${d[1] - d[0]}`)
                 .style("left", (event.pageX + 5) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
