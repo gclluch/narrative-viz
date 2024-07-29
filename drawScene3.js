@@ -159,26 +159,26 @@ const annotations = d3.select("#scene3-controls").append("div")
 annotations.append("div")
 .attr("class", "annotation")
 .style("margin-bottom", "10px") // Add space between annotations
-.style("font-size", "12px")
+.style("font-size", "14px")
 .style("font-weight", "bold")
 .text("Significant Components");
 
 annotations.append("div")
 .attr("class", "annotation")
 .style("margin-bottom", "20px") // Add space between annotations
-.style("font-size", "12px")
+.style("font-size", "14px")
 .text("GDP and social support are significant components of happiness.");
 
 annotations.append("div")
 .attr("class", "annotation")
 .style("margin-bottom", "10px") // Add space between annotations
-.style("font-size", "12px")
+.style("font-size", "14px")
 .style("font-weight", "bold")
 .text("Least Significant");
 
 annotations.append("div")
 .attr("class", "annotation")
-.style("font-size", "12px")
+.style("font-size", "14px")
 .text("Perceptions of corruption and generosity are regularly the least significant.");
 
 }
