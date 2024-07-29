@@ -125,10 +125,20 @@ function drawScene3(data, selectedOptions = []) {
                 .style("opacity", 0);
         });
 
+    // Add "Filter:" text above the legend if it doesn't already exist
+    if (d3.select("#scene3-controls .filter-label").empty()) {
+        d3.select("#scene3-controls").append("div")
+            .attr("class", "filter-label")
+            .style("margin-top", "10px")
+            .style("font-size", "14px")
+            .style("font-weight", "bold")
+            .text("Filter:");
+    }
+
     // Legend setup
     const legend = d3.select("#scene3-controls").append("div")
         .attr("class", "legend")
-        .style("margin-top", "20px"); // Add margin-top to move the legend lower
+        .style("margin-top", "10px"); // Add margin-top to move the legend lower
 
     const activeKeys = new Set(keys); // Set to keep track of active keys
 
