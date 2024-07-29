@@ -68,14 +68,14 @@ function drawScene3(data, selectedOptions = []) {
         .order(d3.stackOrderNone)
         .offset(d3.stackOffsetNone);
 
-    const stackedData = stack(filteredData.map(d => {
+    let stackedData = stack(filteredData.map(d => {
         const countryData = {};
         keys.forEach(key => countryData[key] = d[key]);
         countryData['Country name'] = d['Country name'];
         return countryData;
     }));
 
-    svg.selectAll("g.layer")
+    let layerGroups = svg.selectAll("g.layer")
         .data(stackedData)
         .join("g")
         .attr("class", "layer")
@@ -130,6 +130,8 @@ function drawScene3(data, selectedOptions = []) {
         .attr("class", "legend")
         .style("margin-top", "20px"); // Add margin-top to move the legend lower
 
+    const activeKeys = new Set(keys); // Set to keep track of active keys
+
     legend.selectAll("div.legend-item")
         .data(keys)
         .enter()
@@ -145,40 +147,86 @@ function drawScene3(data, selectedOptions = []) {
                 .style("width", "20px")
                 .style("height", "20px")
                 .style("background-color", color(d))
-                .style("margin-right", "5px");
+                .style("margin-right", "5px")
+                .style("cursor", "pointer")
+                .on("click", function() {
+                    if (activeKeys.has(d)) {
+                        activeKeys.delete(d);
+                        d3.select(this).style("background-color", "#ccc"); // Gray out inactive items
+                    } else {
+                        activeKeys.add(d);
+                        d3.select(this).style("background-color", color(d)); // Restore active color
+                    }
+                    updateGraph();
+                });
 
             legendItem.append("span")
-                .text(renamedKeys[d]);
+                .text(renamedKeys[d])
+                .style("cursor", "pointer")
+                .on("click", function() {
+                    if (activeKeys.has(d)) {
+                        activeKeys.delete(d);
+                        legendItem.select("div").style("background-color", "#ccc"); // Gray out inactive items
+                    } else {
+                        activeKeys.add(d);
+                        legendItem.select("div").style("background-color", color(d)); // Restore active color
+                    }
+                    updateGraph();
+                });
         });
 
     // Add annotations under the legend
-const annotations = d3.select("#scene3-controls").append("div")
-.attr("class", "annotations")
-.style("margin-top", "30px"); // Add more distance between legend and annotations
+    const annotations = d3.select("#scene3-controls").append("div")
+        .attr("class", "annotations")
+        .style("margin-top", "30px"); // Add more distance between legend and annotations
 
-annotations.append("div")
-.attr("class", "annotation")
-.style("margin-bottom", "10px") // Add space between annotations
-.style("font-size", "14px")
-.style("font-weight", "bold")
-.text("Significant Components");
+    annotations.append("div")
+        .attr("class", "annotation")
+        .style("margin-bottom", "10px") // Add space between annotations
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Significant Components");
 
-annotations.append("div")
-.attr("class", "annotation")
-.style("margin-bottom", "20px") // Add space between annotations
-.style("font-size", "14px")
-.text("GDP and social support are significant components of happiness.");
+    annotations.append("div")
+        .attr("class", "annotation")
+        .style("margin-bottom", "20px") // Add space between annotations
+        .style("font-size", "14px")
+        .text("GDP and social support are significant components of happiness.");
 
-annotations.append("div")
-.attr("class", "annotation")
-.style("margin-bottom", "10px") // Add space between annotations
-.style("font-size", "14px")
-.style("font-weight", "bold")
-.text("Least Significant");
+    annotations.append("div")
+        .attr("class", "annotation")
+        .style("margin-bottom", "10px") // Add space between annotations
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Least Significant");
 
-annotations.append("div")
-.attr("class", "annotation")
-.style("font-size", "14px")
-.text("Perceptions of corruption and generosity are regularly the least significant.");
+    annotations.append("div")
+        .attr("class", "annotation")
+        .style("font-size", "14px")
+        .text("Perceptions of corruption and generosity are regularly the least significant.");
 
+    // Function to update the graph based on active keys
+    function updateGraph() {
+        const filteredStack = stack.keys(keys)(filteredData.map(d => {
+            const countryData = {};
+            keys.forEach(key => {
+                countryData[key] = activeKeys.has(key) ? d[key] : 0;
+            });
+            countryData['Country name'] = d['Country name'];
+            return countryData;
+        }));
+
+        svg.selectAll("g.layer")
+            .data(filteredStack)
+            .join("g")
+            .attr("class", "layer")
+            .attr("fill", d => color(d.key))
+            .selectAll("rect")
+            .data(d => d)
+            .join("rect")
+            .attr("x", d => x(d.data['Country name']))
+            .attr("y", d => y(d[1]))
+            .attr("height", d => y(d[0]) - y(d[1]))
+            .attr("width", x.bandwidth());
+    }
 }
