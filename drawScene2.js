@@ -37,7 +37,7 @@ function drawScene2(data, year) {
         .attr("class", "dot")
         .attr("cx", d => x(d['Log GDP per capita']))
         .attr("cy", d => y(d['Life Ladder']))
-        .attr("r", 5)
+        .attr("r", 6)
         .attr("fill", d => color(d['Country name']));
 
     // Tooltip setup
