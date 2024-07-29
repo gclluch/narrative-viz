@@ -2,6 +2,7 @@
 function drawScene3(data, selectedOptions = []) {
     d3.select("#scene3").selectAll("svg").remove();
     d3.select("#scene3-controls .legend").remove();
+    d3.select("#scene3-controls .annotations").remove(); // Remove previous annotations
 
     const svg = d3.select("#scene3").append("svg")
         .attr("width", 1200)
@@ -149,4 +150,35 @@ function drawScene3(data, selectedOptions = []) {
             legendItem.append("span")
                 .text(renamedKeys[d]);
         });
+
+    // Add annotations under the legend
+const annotations = d3.select("#scene3-controls").append("div")
+.attr("class", "annotations")
+.style("margin-top", "30px"); // Add more distance between legend and annotations
+
+annotations.append("div")
+.attr("class", "annotation")
+.style("margin-bottom", "10px") // Add space between annotations
+.style("font-size", "12px")
+.style("font-weight", "bold")
+.text("Significant Components");
+
+annotations.append("div")
+.attr("class", "annotation")
+.style("margin-bottom", "20px") // Add space between annotations
+.style("font-size", "12px")
+.text("GDP and social support are significant components of happiness.");
+
+annotations.append("div")
+.attr("class", "annotation")
+.style("margin-bottom", "10px") // Add space between annotations
+.style("font-size", "12px")
+.style("font-weight", "bold")
+.text("Least Significant");
+
+annotations.append("div")
+.attr("class", "annotation")
+.style("font-size", "12px")
+.text("Perceptions of corruption and generosity are regularly the least significant.");
+
 }

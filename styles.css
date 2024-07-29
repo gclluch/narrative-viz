@@ -50,3 +50,16 @@ body {
 .legend-text {
     font-size: 14px;
 }
+
+
+/* .annotation {
+    font-size: 14px;
+    font-weight: bold;
+    fill: #555; /* Adjust the color to match the tooltips */
+} */
+
+.annotation-description {
+    font-size: 12px;
+    fill: #555; /* Adjust the color to match the tooltips */
+    margin-top: 10px;
+}
