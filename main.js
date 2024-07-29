@@ -12,11 +12,6 @@ Promise.all([
     $('#country-filter-scene2').select2();
     $('#country-filter-scene3').select2();
 
-    // Set default value to "all" for each select element and trigger change
-    $('#country-filter').val(['all']).trigger('change');
-    $('#country-filter-scene2').val(['all']).trigger('change');
-    $('#country-filter-scene3').val(['all']).trigger('change');
-
     // Function to update active scene button
     function setActiveSceneButton(activeButtonId) {
         document.querySelectorAll('.navigation-button').forEach(button => {
@@ -33,28 +28,25 @@ Promise.all([
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene1").classed("visible", true);
         d3.select("#scene1-controls").classed("visible", true);
-        $('#country-filter').val(['all']).trigger('change'); // Reset selection
-        drawScene1(happinessByYear);
         setActiveSceneButton("scene1-btn");
+        drawScene1(happinessByYear);
     });
 
     document.getElementById("scene2-btn").addEventListener("click", () => {
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene2").classed("visible", true);
         d3.select("#scene2-controls").classed("visible", true);
-        $('#country-filter-scene2').val(['all']).trigger('change'); // Reset selection
+        setActiveSceneButton("scene2-btn");
         const year = document.getElementById("year-filter").value;
         drawScene2(happinessByYear, year);
-        setActiveSceneButton("scene2-btn");
     });
 
     document.getElementById("scene3-btn").addEventListener("click", () => {
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene3").classed("visible", true);
         d3.select("#scene3-controls").classed("visible", true);
-        $('#country-filter-scene3').val(['all']).trigger('change'); // Reset selection
-        drawScene3(happinessSummary, ['all']);
         setActiveSceneButton("scene3-btn");
+        drawScene3(happinessSummary, []);
     });
 
     // Populate country dropdown for Scene 1

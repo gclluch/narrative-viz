@@ -45,6 +45,11 @@
             display: block;
         }
 
+        .navigation-button.active {
+            background-color: #007BFF; /* Change this to the color you prefer */
+            color: white;
+        }
+
         /* Additional styling to ensure consistent appearance */
         .controls select {
             margin-bottom: 10px;
@@ -73,9 +78,9 @@
 </head>
 <body>
     <div id="navigation">
-        <button id="scene1-btn">Scene 1: Global Happiness Trends</button>
-        <button id="scene2-btn">Scene 2: Happiness by GDP</button>
-        <button id="scene3-btn">Scene 3: Happiness Factors Breakdown</button>
+        <button id="scene1-btn" class="navigation-button">Scene 1: Global Happiness Trends</button>
+        <button id="scene2-btn" class="navigation-button">Scene 2: Happiness by GDP</button>
+        <button id="scene3-btn" class="navigation-button">Scene 3: Happiness Factors Breakdown</button>
     </div>
     <div class="container">
         <div class="graph-container scene visible" id="scene1">
