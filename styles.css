@@ -52,11 +52,11 @@ body {
 }
 
 
-/* .annotation {
+.annotation {
     font-size: 14px;
-    font-weight: bold;
+    /* font-weight: bold; */
     fill: #555; /* Adjust the color to match the tooltips */
-} */
+}
 
 .annotation-description {
     font-size: 12px;
