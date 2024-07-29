@@ -20,21 +20,21 @@
         }
 
         .controls {
-            width: 250px; /* Fixed width for controls column */
+            width: 250px;
             margin-left: 20px;
             display: flex;
             flex-direction: column;
         }
 
         .select2-container {
-            width: 100%; /* Ensure the dropdown spans the full width */
+            width: 100%;
             min-width: 200px;
-            box-sizing: border-box; /* Ensure padding and borders are included in the width */
+            box-sizing: border-box;
         }
 
         .select2-selection__choice {
-            display: block; /* Display each selected option as a block element */
-            margin: 2px 0; /* Adjust margin for spacing */
+            display: block;
+            margin: 2px 0;
         }
 
         .scene {
@@ -46,11 +46,10 @@
         }
 
         .navigation-button.active {
-            background-color: #007BFF; /* Change this to the color you prefer */
+            background-color: #007BFF;
             color: white;
         }
 
-        /* Additional styling to ensure consistent appearance */
         .controls select {
             margin-bottom: 10px;
         }
@@ -78,13 +77,14 @@
 </head>
 <body>
     <div id="navigation">
+        <button id="back-btn">Back</button>
         <button id="scene1-btn" class="navigation-button">Scene 1: Global Happiness Trends</button>
         <button id="scene2-btn" class="navigation-button">Scene 2: Happiness by GDP</button>
         <button id="scene3-btn" class="navigation-button">Scene 3: Happiness Factors Breakdown</button>
+        <button id="forward-btn">Forward</button>
     </div>
     <div class="container">
         <div class="graph-container scene visible" id="scene1">
-            <!-- Graph will be rendered here -->
         </div>
         <div class="controls scene visible" id="scene1-controls">
             <select id="country-filter" multiple>
@@ -98,7 +98,6 @@
 
     <div class="container">
         <div class="graph-container scene" id="scene2">
-            <!-- Graph will be rendered here -->
         </div>
         <div class="controls scene" id="scene2-controls">
             <select id="country-filter-scene2" multiple>
@@ -108,14 +107,12 @@
                 <option value="least">5 Least Happy Countries</option>
             </select>
             <select id="year-filter">
-                <!-- Options will be populated dynamically -->
             </select>
         </div>
     </div>
 
     <div class="container">
         <div class="graph-container scene" id="scene3">
-            <!-- Graph will be rendered here -->
         </div>
         <div class="controls scene" id="scene3-controls">
             <select id="country-filter-scene3" multiple>

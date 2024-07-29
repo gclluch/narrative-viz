@@ -5,7 +5,22 @@ Promise.all([
 ]).then(data => {
     const happinessByYear = data[0];
     const happinessSummary = data[1];
-    drawScene1(happinessByYear);
+    let currentScene = 1;
+
+    function updateScene() {
+        d3.selectAll(".scene").classed("visible", false);
+        d3.select(`#scene${currentScene}`).classed("visible", true);
+        d3.select(`#scene${currentScene}-controls`).classed("visible", true);
+        setActiveSceneButton(`scene${currentScene}-btn`);
+        if (currentScene === 1) {
+            drawScene1(happinessByYear);
+        } else if (currentScene === 2) {
+            const year = document.getElementById("year-filter").value;
+            drawScene2(happinessByYear, year);
+        } else if (currentScene === 3) {
+            drawScene3(happinessSummary, []);
+        }
+    }
 
     // Initialize Select2 on dropdowns
     $('#country-filter').select2();
@@ -25,28 +40,32 @@ Promise.all([
 
     // Event listeners for navigation buttons
     document.getElementById("scene1-btn").addEventListener("click", () => {
-        d3.selectAll(".scene").classed("visible", false);
-        d3.select("#scene1").classed("visible", true);
-        d3.select("#scene1-controls").classed("visible", true);
-        setActiveSceneButton("scene1-btn");
-        drawScene1(happinessByYear);
+        currentScene = 1;
+        updateScene();
     });
 
     document.getElementById("scene2-btn").addEventListener("click", () => {
-        d3.selectAll(".scene").classed("visible", false);
-        d3.select("#scene2").classed("visible", true);
-        d3.select("#scene2-controls").classed("visible", true);
-        setActiveSceneButton("scene2-btn");
-        const year = document.getElementById("year-filter").value;
-        drawScene2(happinessByYear, year);
+        currentScene = 2;
+        updateScene();
     });
 
     document.getElementById("scene3-btn").addEventListener("click", () => {
-        d3.selectAll(".scene").classed("visible", false);
-        d3.select("#scene3").classed("visible", true);
-        d3.select("#scene3-controls").classed("visible", true);
-        setActiveSceneButton("scene3-btn");
-        drawScene3(happinessSummary, []);
+        currentScene = 3;
+        updateScene();
+    });
+
+    document.getElementById("back-btn").addEventListener("click", () => {
+        if (currentScene > 1) {
+            currentScene--;
+            updateScene();
+        }
+    });
+
+    document.getElementById("forward-btn").addEventListener("click", () => {
+        if (currentScene < 3) {
+            currentScene++;
+            updateScene();
+        }
     });
 
     // Populate country dropdown for Scene 1
@@ -209,4 +228,7 @@ Promise.all([
 
         drawScene3(filteredData, selectedOptions);
     });
+
+    // Initial update of scene 1
+    updateScene();
 });

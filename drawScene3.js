@@ -2,7 +2,7 @@
 function drawScene3(data, selectedOptions = []) {
     d3.select("#scene3").selectAll("svg").remove();
     d3.select("#scene3-controls .legend").remove();
-    d3.select("#scene3-controls .annotations").remove(); // Remove previous annotations
+    d3.select("#scene3-controls .annotations").remove();
 
     const svg = d3.select("#scene3").append("svg")
         .attr("width", 1200)
@@ -24,7 +24,6 @@ function drawScene3(data, selectedOptions = []) {
         "Dystopia + residual": "Residual"
     };
 
-    // Filter out specific countries and countries with null or none values
     const filteredData = data.filter(d => {
         return !["Bahrain", "State of Palestine", "Tajikistan"].includes(d['Country name']) &&
             keys.every(key => d[key] !== null && d[key] !== "none");
@@ -138,9 +137,9 @@ function drawScene3(data, selectedOptions = []) {
     // Legend setup
     const legend = d3.select("#scene3-controls").append("div")
         .attr("class", "legend")
-        .style("margin-top", "10px"); // Add margin-top to move the legend lower
+        .style("margin-top", "10px");
 
-    const activeKeys = new Set(keys); // Set to keep track of active keys
+    const activeKeys = new Set(keys);
 
     legend.selectAll("div.legend-item")
         .data(keys)
@@ -185,27 +184,27 @@ function drawScene3(data, selectedOptions = []) {
                 });
         });
 
-    // Add annotations under the legend
+
     const annotations = d3.select("#scene3-controls").append("div")
         .attr("class", "annotations")
-        .style("margin-top", "30px"); // Add more distance between legend and annotations
+        .style("margin-top", "30px");
 
     annotations.append("div")
         .attr("class", "annotation")
-        .style("margin-bottom", "10px") // Add space between annotations
+        .style("margin-bottom", "10px")
         .style("font-size", "14px")
         .style("font-weight", "bold")
         .text("Significant Components");
 
     annotations.append("div")
         .attr("class", "annotation")
-        .style("margin-bottom", "20px") // Add space between annotations
+        .style("margin-bottom", "20px")
         .style("font-size", "14px")
         .text("GDP and social support are significant components of happiness.");
 
     annotations.append("div")
         .attr("class", "annotation")
-        .style("margin-bottom", "10px") // Add space between annotations
+        .style("margin-bottom", "10px")
         .style("font-size", "14px")
         .style("font-weight", "bold")
         .text("Least Significant");
@@ -215,7 +214,6 @@ function drawScene3(data, selectedOptions = []) {
         .style("font-size", "14px")
         .text("Perceptions of corruption and generosity are regularly the least significant.");
 
-    // Function to update the graph based on active keys
     function updateGraph() {
         const filteredStack = stack.keys(keys)(filteredData.map(d => {
             const countryData = {};

@@ -90,23 +90,23 @@ function drawScene1(data) {
     // Finland annotation
     if (countries.includes("Finland")) {
         annotationGroup.append("text")
-            .attr("x", width - 250) // Position off to the right
-            .attr("y", 40) // Adjust vertical position to be under the search bar
+            .attr("x", width - 250)
+            .attr("y", 40)
             .attr("class", "annotation")
             .attr("font-size", "14px")
             .attr("font-weight", "bold")
             .text("Happiest Country");
 
         annotationGroup.append("text")
-            .attr("x", width - 250) // Position off to the right
-            .attr("y", 60) // Adjust vertical position
+            .attr("x", width - 250)
+            .attr("y", 60)
             .attr("class", "annotation")
             .attr("font-size", "12px")
             .text("Finland has been ranked");
 
         annotationGroup.append("text")
-            .attr("x", width - 250) // Position off to the right
-            .attr("y", 80) // Adjust vertical position
+            .attr("x", width - 250)
+            .attr("y", 80)
             .attr("class", "annotation")
             .attr("font-size", "12px")
             .text("as the happiest country.");
@@ -115,23 +115,23 @@ function drawScene1(data) {
     // Afghanistan annotation
     if (countries.includes("Afghanistan")) {
         annotationGroup.append("text" )
-            .attr("x", margin.left + 700) // Position to the left
-            .attr("y", height - margin.bottom - 80) // Adjust vertical position to be near the bottom
+            .attr("x", margin.left + 700)
+            .attr("y", height - margin.bottom - 80)
             .attr("class", "annotation")
             .attr("font-size", "14px")
             .attr("font-weight", "bold")
             .text("Least Happy Country");
 
         annotationGroup.append("text")
-            .attr("x", margin.left + 700) // Position to the left
-            .attr("y", height - margin.bottom - 60) // Adjust vertical position
+            .attr("x", margin.left + 700)
+            .attr("y", height - margin.bottom - 60)
             .attr("class", "annotation")
             .attr("font-size", "12px")
             .text("Afghanistan has been ranked");
 
         annotationGroup.append("text")
-            .attr("x", margin.left + 700) // Position to the left
-            .attr("y", height - margin.bottom - 40) // Adjust vertical position
+            .attr("x", margin.left + 700)
+            .attr("y", height - margin.bottom - 40)
             .attr("class", "annotation")
             .attr("font-size", "12px")
             .text("as the least happy country.");

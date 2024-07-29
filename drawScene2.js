@@ -6,11 +6,11 @@ function drawScene2(data, year) {
         .attr("width", 1200)
         .attr("height", 800);
 
-    const margin = { top: 20, right: 30, bottom: 50, left: 70 }, // Adjusted bottom and left margins for labels
+    const margin = { top: 20, right: 30, bottom: 50, left: 70 },
         width = +svg.attr("width") - margin.left - margin.right,
         height = +svg.attr("height") - margin.top - margin.bottom;
 
-    // Filter data by year and remove entries with blank or 0 GDP
+
     const filteredData = data.filter(d => d.year == year && d['Log GDP per capita'] && +d['Log GDP per capita'] > 0);
 
     const x = d3.scaleLinear()
@@ -78,15 +78,15 @@ function drawScene2(data, year) {
 
     // Add annotation
     svg.append("text")
-        .attr("x", width - 250) // Position near the bottom right
-        .attr("y", height - margin.bottom - 300) // Adjust vertical position to be near the bottom
+        .attr("x", width - 250)
+        .attr("y", height - margin.bottom - 300)
         .attr("class", "annotation")
         .attr("font-size", "12px")
         .text("Higher GDP is correlated");
 
     svg.append("text")
-        .attr("x", width - 250) // Position near the bottom right
-        .attr("y", height - margin.bottom - 280  ) // Adjust vertical position to be near the bottom
+        .attr("x", width - 250)
+        .attr("y", height - margin.bottom - 280  )
         .attr("class", "annotation")
         .attr("font-size", "12px")
         .text("with higher happiness ranking.");
