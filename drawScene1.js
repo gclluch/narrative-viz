@@ -82,4 +82,58 @@ function drawScene1(data) {
             .duration(500)
             .style("opacity", 0);
     });
+
+    // Add annotations
+    const annotationGroup = svg.append("g")
+        .attr("class", "annotation-group");
+
+    // Finland annotation
+    if (countries.includes("Finland")) {
+        annotationGroup.append("text")
+            .attr("x", width - 250) // Position off to the right
+            .attr("y", 40) // Adjust vertical position to be under the search bar
+            .attr("class", "annotation")
+            .attr("font-size", "14px")
+            .attr("font-weight", "bold")
+            .text("Happiest Country");
+
+        annotationGroup.append("text")
+            .attr("x", width - 250) // Position off to the right
+            .attr("y", 60) // Adjust vertical position
+            .attr("class", "annotation")
+            .attr("font-size", "12px")
+            .text("Finland has been ranked");
+
+        annotationGroup.append("text")
+            .attr("x", width - 250) // Position off to the right
+            .attr("y", 80) // Adjust vertical position
+            .attr("class", "annotation")
+            .attr("font-size", "12px")
+            .text("as the happiest country.");
+    }
+
+    // Afghanistan annotation
+    if (countries.includes("Afghanistan")) {
+        annotationGroup.append("text" )
+            .attr("x", margin.left + 700) // Position to the left
+            .attr("y", height - margin.bottom - 80) // Adjust vertical position to be near the bottom
+            .attr("class", "annotation")
+            .attr("font-size", "14px")
+            .attr("font-weight", "bold")
+            .text("Least Happy Country");
+
+        annotationGroup.append("text")
+            .attr("x", margin.left + 700) // Position to the left
+            .attr("y", height - margin.bottom - 60) // Adjust vertical position
+            .attr("class", "annotation")
+            .attr("font-size", "12px")
+            .text("Afghanistan has been ranked");
+
+        annotationGroup.append("text")
+            .attr("x", margin.left + 700) // Position to the left
+            .attr("y", height - margin.bottom - 40) // Adjust vertical position
+            .attr("class", "annotation")
+            .attr("font-size", "12px")
+            .text("as the least happy country.");
+    }
 }

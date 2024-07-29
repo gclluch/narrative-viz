@@ -75,4 +75,19 @@ function drawScene2(data, year) {
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
         .text("Life Ladder");
+
+    // Add annotation
+    svg.append("text")
+        .attr("x", width - 250) // Position near the bottom right
+        .attr("y", height - margin.bottom - 300) // Adjust vertical position to be near the bottom
+        .attr("class", "annotation")
+        .attr("font-size", "12px")
+        .text("Higher GDP is correlated");
+
+    svg.append("text")
+        .attr("x", width - 250) // Position near the bottom right
+        .attr("y", height - margin.bottom - 280  ) // Adjust vertical position to be near the bottom
+        .attr("class", "annotation")
+        .attr("font-size", "12px")
+        .text("with higher happiness ranking.");
 }

@@ -12,6 +12,11 @@ Promise.all([
     $('#country-filter-scene2').select2();
     $('#country-filter-scene3').select2();
 
+    // Set default value to "all" for each select element and trigger change
+    $('#country-filter').val(['all']).trigger('change');
+    $('#country-filter-scene2').val(['all']).trigger('change');
+    $('#country-filter-scene3').val(['all']).trigger('change');
+
     // Event listeners for navigation buttons
     document.getElementById("scene1-btn").addEventListener("click", () => {
         d3.selectAll(".scene").classed("visible", false);
@@ -32,7 +37,7 @@ Promise.all([
         d3.selectAll(".scene").classed("visible", false);
         d3.select("#scene3").classed("visible", true);
         d3.select("#scene3-controls").classed("visible", true);
-        drawScene3(happinessSummary, []);
+        drawScene3(happinessSummary, ['all']);
     });
 
     // Populate country dropdown for Scene 1
