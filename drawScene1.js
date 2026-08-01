@@ -83,6 +83,37 @@ function drawScene1(data) {
             .style("opacity", 0);
     });
 
+    // Legend, but only once a filter has cut the field down to something a
+    // legend can actually name. Unfiltered this chart is ~167 countries, where a
+    // legend would be longer than the page and no more readable than the lines.
+    // Hover still gives the country either way; this is for reading at a glance.
+    d3.select("#scene1-controls .legend").remove();
+    const LEGEND_MAX = 15;
+    if (countries.length <= LEGEND_MAX) {
+        const legend = d3.select("#scene1-controls").append("div")
+            .attr("class", "legend")
+            .style("margin-top", "16px");
+
+        legend.append("div")
+            .attr("class", "control-label")
+            .text(countries.length === 1 ? "Showing" : `Showing ${countries.length}`);
+
+        legend.selectAll("div.legend-row")
+            .data(countries.slice().sort(d3.ascending))
+            .enter()
+            .append("div")
+            .attr("class", "legend-row")
+            .each(function(country) {
+                const row = d3.select(this);
+                row.append("div")
+                    .attr("class", "legend-color-box")
+                    .style("background-color", color(country));
+                row.append("span")
+                    .attr("class", "legend-text")
+                    .text(country);
+            });
+    }
+
     // Add annotations
     const annotationGroup = svg.append("g")
         .attr("class", "annotation-group");

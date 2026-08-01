@@ -22,10 +22,17 @@ Promise.all([
         }
     }
 
-    // Initialize Select2 on dropdowns
-    $('#country-filter').select2();
-    $('#country-filter-scene2').select2();
-    $('#country-filter-scene3').select2();
+    // Initialize Select2 on dropdowns.
+    //
+    // The placeholder is not decoration. Select2 hides the native <select> and
+    // renders its own widget; with nothing selected and no placeholder that
+    // widget is a blank box in the corner, so the control that cuts scene 1 from
+    // ~150 overlapping lines down to a readable handful looked like an empty
+    // input nobody had any reason to click.
+    const countryPlaceholder = 'Filter countries - try "5 Happiest Countries"';
+    $('#country-filter').select2({ placeholder: countryPlaceholder });
+    $('#country-filter-scene2').select2({ placeholder: countryPlaceholder });
+    $('#country-filter-scene3').select2({ placeholder: countryPlaceholder });
 
     // Function to update active scene button
     function setActiveSceneButton(activeButtonId) {

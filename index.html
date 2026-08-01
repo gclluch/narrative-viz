@@ -20,7 +20,9 @@
         }
 
         .controls {
-            width: 250px;
+            /* Wide enough for the placeholder to read as a sentence rather than
+               truncate mid-word. There is empty page to the right either way. */
+            width: 320px;
             margin-left: 20px;
             display: flex;
             flex-direction: column;
@@ -48,6 +50,14 @@
         .navigation-button.active {
             background-color: #007BFF;
             color: white;
+        }
+
+        .control-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #333;
         }
 
         .controls select {
@@ -96,6 +106,7 @@
         <div class="graph-container scene visible" id="scene1">
         </div>
         <div class="controls scene visible" id="scene1-controls">
+            <label class="control-label" for="country-filter">Countries</label>
             <select id="country-filter" multiple>
                 <option value="all">All Countries</option>
                 <option value="major">Major Country Sample</option>
@@ -109,12 +120,14 @@
         <div class="graph-container scene" id="scene2">
         </div>
         <div class="controls scene" id="scene2-controls">
+            <label class="control-label" for="country-filter-scene2">Countries</label>
             <select id="country-filter-scene2" multiple>
                 <option value="all">All Countries</option>
                 <option value="major">Major Country Sample</option>
                 <option value="happiest">5 Happiest Countries</option>
                 <option value="least">5 Least Happy Countries</option>
             </select>
+            <label class="control-label" for="year-filter">Year</label>
             <select id="year-filter">
             </select>
         </div>
@@ -124,6 +137,7 @@
         <div class="graph-container scene" id="scene3">
         </div>
         <div class="controls scene" id="scene3-controls">
+            <label class="control-label" for="country-filter-scene3">Countries</label>
             <select id="country-filter-scene3" multiple>
                 <option value="all">All Countries</option>
                 <option value="major">Major Country Sample</option>
