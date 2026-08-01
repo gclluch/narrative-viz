@@ -21,7 +21,12 @@ function drawScene3(data, selectedOptions = []) {
         "Explained by: Freedom to make life choices": "Freedom to make life choices",
         "Explained by: Generosity": "Generosity",
         "Explained by: Perceptions of corruption": "Perceptions of corruption",
-        "Dystopia + residual": "Residual"
+        // Not just "Residual". This band is the report's Dystopia benchmark - a
+        // fixed constant standing in for a hypothetical worst-case country -
+        // plus the unexplained remainder. Labelling it "Residual" alone reads as
+        // "this much is unexplained", which overstates it: the constant is most
+        // of the band, and this is the largest band for 75 of 140 countries.
+        "Dystopia + residual": "Dystopia + residual"
     };
 
     const filteredData = data.filter(d => {
